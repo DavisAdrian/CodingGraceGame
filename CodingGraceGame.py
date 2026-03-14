@@ -441,6 +441,44 @@ def green_magic_room(player_info_arg):
         return "flee"
 
 
+def silver_mirror_room(player_info_arg):
+    """Silver Mirror Room: a riddle challenge where the player must know themselves.
+
+    Returns:
+        "flee" if the player chose to flee (so the adventure loop continues),
+        or raises GameOver if the player dies or wins.
+    """
+    print("\n=== THE SILVER MIRROR ROOM ===")
+    print("You step into a circular chamber lined with enormous silver mirrors.")
+    print("Your reflections stare back — but one reflection moves on its own.")
+    print("The moving reflection speaks: 'Answer my riddle, or face your fate.'")
+    print("\nRiddle: 'I have cities, but no houses live there.")
+    print("I have mountains, but no trees grow there.")
+    print("I have water, but no fish swim there.")
+    print("I have roads, but no cars drive there. What am I?'")
+
+    # --- Update player state ---
+    player_info_arg["location"] = "Silver Mirror Room"
+    player_info_arg["health"] -= 10  # riddle stress costs 10 HP
+
+    artifact = "Mirror Shard"
+    if artifact not in player_info_arg["inventory"]:
+        player_info_arg["inventory"].append(artifact)
+        print("\nA glowing Mirror Shard falls at your feet. You pick it up.")
+
+    player_info_arg["choices"].append("Silver Mirror Room")
+    show_player_info(player_info_arg)
+
+    answer = input("\nYour answer (or 'flee') > ").strip().lower()
+
+    if "map" in answer:
+        you_won("The reflection smiles and shatters. A door of light opens — you escape the dungeon!")
+    elif "flee" in answer:
+        return "flee"
+    else:
+        you_died("The reflection lunges from the mirror. The glass swallows you whole.")
+
+
 # ===========================================================================
 # CONTROL FUNCTIONS
 # ===========================================================================
