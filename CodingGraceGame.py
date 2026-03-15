@@ -478,6 +478,65 @@ def silver_mirror_room(player_info_arg):
     else:
         you_died("The reflection lunges from the mirror. The glass swallows you whole.")
 
+def teal_potion_room(player_info_arg):
+    '''Teal Potion Room: a game of chance where you drink a mysterious potion.
+
+      Returns:
+        "flee" if the player chose to flee (so the adventure loop continues),
+        or raises GameOver if the player dies or wins.
+    '''
+    print("\n===Welcome to the Teal Room===")
+    print("You find yourself in a cavern with a strange glowing lake.")
+    print("The lake illuminates the room with a teal hue.")
+    print("There's a rocky path that leads you across the lake to a stone pedestal.")
+    print("On the pedestal sits a glass bottle with a mysterious potion. Below there is a message carved:")
+    print("The more you drink, the greater the power, but the greater the risk.")
+    choice = input("Drink (1) once, (2) twice, or (3) three times?")
+    
+    player_info_arg["location"] = "Teal Potion Room"
+
+    #Based off the random outcome, the potion can increase or decrease player's health
+    outcome = random.randint(1, 100)
+
+    #Chances go from better to worse from choices 1 to 3
+    #Choice 1 has lowest risk, lowest reward
+    #Choice 2 has medium risk, medium reward
+    #Choice 3 has highest risk, highest reward
+    if choice == "1":
+        if outcome <= 80: #80% chance you gain health
+            print("The potion revitalizes you! +30 health.")
+            player_info_arg["health"] += 30
+        else:
+            print("The potion makes you sick! -10 health.")
+            player_info_arg["health"] -= 10
+    elif choice == "2":
+        if outcome <= 60: #60% chance you gain health
+            print("The potion renews your energy! +50 health.")
+            player_info_arg["health"] += 50
+        else:
+            print("The potion makes you nauseous! -20 health.")
+            player_info_arg["health"] -= 20
+    elif choice == "3":
+        if outcome <= 40: #40% chance you gain health
+            print("The potion gives you strength! +80 health.")
+            player_info_arg["health"] += 80
+        else:
+            print("The potion gives you a headache! -40 health.")
+            player_info_arg["health"] -= 40
+    else:
+        print("You decide not to drink the potion.")
+        
+    print("Your health is now:", player_info_arg["health"])
+    
+    if player_info_arg["health"] <=0:
+        raise GameOver("The potion overwhelms you. You pass out and your adventure ends")
+        
+    if "Empty Potion Bottle" not in player_info_arg["inventory"]:
+        player_info_arg["inventory"].append("Empty Potion Bottle")
+        print("You take the empty potion bottle with you. You never know when you might need it.")
+    
+    return "flee"
+
 
 # ===========================================================================
 # CONTROL FUNCTIONS
