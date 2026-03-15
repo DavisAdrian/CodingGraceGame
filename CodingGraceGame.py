@@ -509,7 +509,7 @@ def pink_temptation_room(player_info_arg):
     if "cake" in action:
         print("The cake fills you with magical energy!")
         player_info_arg["health"] += 20
-        return player_info_arg
+        return "flee"
 
     elif "cookie" in action:
         you_died("The cookie was cursed! Everything fades to pink...")
