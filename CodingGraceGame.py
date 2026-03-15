@@ -478,6 +478,48 @@ def silver_mirror_room(player_info_arg):
     else:
         you_died("The reflection lunges from the mirror. The glass swallows you whole.")
 
+def pink_temptation_room(player_info_arg):
+    """A tempting pink room filled with magical desserts."""
+
+    print("\n=== PINK TEMPTATION ROOM ===")
+    print("You enter a bright pink room filled with glowing desserts.")
+    print("On a table sits a slice of cake and a mysterious cookie.")
+    print('"A small sign reads: Some sweets heal... others deceive."')
+
+    # REQUIRED STATE UPDATES
+    player_info_arg["location"] = "Pink Room"
+
+    damage_or_healing = 5
+    player_info_arg["health"] += damage_or_healing
+
+    item = "Strawberry Charm"
+    if item not in player_info_arg["inventory"]:
+        player_info_arg["inventory"].append(item)
+        print(f"You found a {item}!")
+
+    player_info_arg["choices"].append("Pink Room")
+
+    # REQUIRED DISPLAY
+    show_player_info(player_info_arg)
+
+    # INTERACTION
+    print("\nDo you eat the cake, eat the cookie, or flee?")
+    action = input("> ").strip().lower()
+
+    if "cake" in action:
+        print("The cake fills you with magical energy!")
+        player_info_arg["health"] += 20
+        return "flee"
+
+    elif "cookie" in action:
+        you_died("The cookie was cursed! Everything fades to pink...")
+
+    elif "flee" in action:
+        return "flee"
+
+    else:
+        print("Confused, you decide to step back through the door.")
+        return "flee"
 
 # ===========================================================================
 # CONTROL FUNCTIONS
