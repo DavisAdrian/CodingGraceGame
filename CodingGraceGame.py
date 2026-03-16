@@ -485,56 +485,66 @@ def teal_potion_room(player_info_arg):
         "flee" if the player chose to flee (so the adventure loop continues),
         or raises GameOver if the player dies or wins.
     '''
-    print("\n===Welcome to the Teal Room===")
+    print("\n===Welcome to the Teal Potion Room===")
     print("You find yourself in a cavern with a strange glowing lake.")
     print("The lake illuminates the room with a teal hue.")
     print("There's a rocky path that leads you across the lake to a stone pedestal.")
-    print("On the pedestal sits a glass bottle with a mysterious potion. Below there is a message carved:")
+    print("On the pedestal sits a glass bottle with a mysterious potion.")
+    print("Below there is a message carved: ")
     print("The more you drink, the greater the power, but the greater the risk.")
-    choice = input("Drink (1) once, (2) twice, or (3) three times?")
+    choice = input("\nDrink (1) once, (2) twice, or (3) three times?")
 
     player_info_arg["location"] = "Teal Potion Room"
+    player_info_arg["choices"].append("Teal Potion Room")
 
-    #Based off the random outcome, the potion can increase or decrease player's health
+    # Based off the random outcome, the potion can increase or decrease player's health
     outcome = random.randint(1, 100)
 
-    #Chances go from better to worse from choices 1 to 3
-    #Choice 1 has lowest risk, lowest reward
-    #Choice 2 has medium risk, medium reward
-    #Choice 3 has highest risk, highest reward
+    # Chances go from better to worse from choices 1 to 3
+    # Choice 1 has lowest risk, lowest reward
+    # Choice 2 has medium risk, medium reward
+    # Choice 3 has highest risk, highest reward
     if choice == "1":
         if outcome <= 80: #80% chance you gain health
             print("The potion revitalizes you! +30 health.")
             player_info_arg["health"] += 30
+            # Ensures that health does not go above 200 HP or below 0 HP
+            player_info_arg["health"] = max(0, min(200, player_info_arg["health"]))
         else:
             print("The potion makes you sick! -10 health.")
             player_info_arg["health"] -= 10
+            player_info_arg["health"] = max(0, min(200, player_info_arg["health"]))
     elif choice == "2":
         if outcome <= 60: #60% chance you gain health
             print("The potion renews your energy! +50 health.")
             player_info_arg["health"] += 50
+            player_info_arg["health"] = max(0, min(200, player_info_arg["health"]))
         else:
             print("The potion makes you nauseous! -20 health.")
             player_info_arg["health"] -= 20
+            player_info_arg["health"] = max(0, min(200, player_info_arg["health"]))
     elif choice == "3":
         if outcome <= 40: #40% chance you gain health
             print("The potion gives you strength! +80 health.")
             player_info_arg["health"] += 80
+            player_info_arg["health"] = max(0, min(200, player_info_arg["health"]))
         else:
             print("The potion gives you a headache! -40 health.")
             player_info_arg["health"] -= 40
+            player_info_arg["health"] = max(0, min(200, player_info_arg["health"]))
     else:
         print("You decide not to drink the potion.")
 
-    print("Your health is now:", player_info_arg["health"])
+    if player_info_arg["health"] <= 0:
+        you_died("The potion overwhelms you. You pass out and your adventure ends")
 
-    if player_info_arg["health"] <=0:
-        raise GameOver("The potion overwhelms you. You pass out and your adventure ends")
-
-    if "Empty Potion Bottle" not in player_info_arg["inventory"]:
+    # Ensures that player only takes empty bottle if they drank it and it is not in inventory
+    if choice in ["1","2","3"] and "Empty Potion Bottle" not in player_info_arg["inventory"]:
         player_info_arg["inventory"].append("Empty Potion Bottle")
         print("You take the empty potion bottle with you. You never know when you might need it.")
-
+        
+    show_player_info(player_info_arg)
+    
     return "flee"
 
 
