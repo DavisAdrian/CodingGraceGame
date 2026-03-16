@@ -492,7 +492,7 @@ def teal_potion_room(player_info_arg):
     print("On the pedestal sits a glass bottle with a mysterious potion. Below there is a message carved:")
     print("The more you drink, the greater the power, but the greater the risk.")
     choice = input("Drink (1) once, (2) twice, or (3) three times?")
-    
+
     player_info_arg["location"] = "Teal Potion Room"
 
     #Based off the random outcome, the potion can increase or decrease player's health
@@ -525,18 +525,61 @@ def teal_potion_room(player_info_arg):
             player_info_arg["health"] -= 40
     else:
         print("You decide not to drink the potion.")
-        
+
     print("Your health is now:", player_info_arg["health"])
-    
+
     if player_info_arg["health"] <=0:
         raise GameOver("The potion overwhelms you. You pass out and your adventure ends")
-        
+
     if "Empty Potion Bottle" not in player_info_arg["inventory"]:
         player_info_arg["inventory"].append("Empty Potion Bottle")
         print("You take the empty potion bottle with you. You never know when you might need it.")
-    
+
     return "flee"
 
+
+def pink_temptation_room(player_info_arg):
+    """A tempting pink room filled with magical desserts."""
+
+    print("\n=== PINK TEMPTATION ROOM ===")
+    print("You enter a bright pink room filled with glowing desserts.")
+    print("On a table sits a slice of cake and a mysterious cookie.")
+    print('"A small sign reads: Some sweets heal... others deceive."')
+
+    # REQUIRED STATE UPDATES
+    player_info_arg["location"] = "Pink Room"
+
+    damage_or_healing = 5
+    player_info_arg["health"] += damage_or_healing
+
+    item = "Strawberry Charm"
+    if item not in player_info_arg["inventory"]:
+        player_info_arg["inventory"].append(item)
+        print(f"You found a {item}!")
+
+    player_info_arg["choices"].append("Pink Room")
+
+    # REQUIRED DISPLAY
+    show_player_info(player_info_arg)
+
+    # INTERACTION
+    print("\nDo you eat the cake, eat the cookie, or flee?")
+    action = input("> ").strip().lower()
+
+    if "cake" in action:
+        print("The cake fills you with magical energy!")
+        player_info_arg["health"] += 20
+        return "flee"
+
+    elif "cookie" in action:
+        you_died("The cookie was cursed! Everything fades to pink...")
+
+    elif "flee" in action:
+        return "flee"
+
+    else:
+        print("Confused, you decide to step back through the door.")
+        return "flee"
 
 # ===========================================================================
 # CONTROL FUNCTIONS
