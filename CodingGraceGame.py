@@ -537,8 +537,9 @@ def teal_potion_room(player_info_arg):
 
     if player_info_arg["health"] <= 0:
         you_died("The potion overwhelms you. You pass out and your adventure ends")
-        
-    if "Empty Potion Bottle" not in player_info_arg["inventory"]:
+
+    # Ensures that player only takes empty bottle if they drank it and it is not in inventory
+    if choice in ["1","2","3"] and Empty Potion Bottle" not in player_info_arg["inventory"]:
         player_info_arg["inventory"].append("Empty Potion Bottle")
         print("You take the empty potion bottle with you. You never know when you might need it.")
         
