@@ -445,8 +445,8 @@ def silver_mirror_room(player_info_arg):
     """Silver Mirror Room: a riddle challenge where the player must know themselves.
 
     Returns:
-        "flee" if the player chose to flee (so the adventure loop continues),
-        or raises GameOver if the player dies or wins.
+        "flee" in all non-death outcomes (correct answer or flee),
+        or raises GameOver if the player dies.
     """
     print("\n=== THE SILVER MIRROR ROOM ===")
     print("You step into a circular chamber lined with enormous silver mirrors.")
@@ -472,7 +472,8 @@ def silver_mirror_room(player_info_arg):
     answer = input("\nYour answer (or 'flee') > ").strip().lower()
 
     if "map" in answer:
-        you_won("The reflection smiles and shatters. A door of light opens — you escape the dungeon!")
+        print("The reflection smiles and shatters. A door of light opens — you may continue your adventure!")
+        return "flee"
     elif "flee" in answer:
         return "flee"
     else:
