@@ -416,7 +416,7 @@ def green_magic_room(player_info_arg):
 
     player_info_arg["choices"].append("Green Room")
     show_player_info(player_info_arg)
-
+ 
     # --- Play RPS until the result is not a tie ---
     # We initialize result to "tie" so the while-loop runs at least once.
     result = "tie"
