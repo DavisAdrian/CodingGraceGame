@@ -622,7 +622,7 @@ def get_player_name(player_info_arg):
 
 
 def start_new_adventure(player_info_arg):
-    """Presents the three-door choice and routes to the selected room.
+    """Presents the six-door choice and routes to the selected room.
 
     A while-loop drives the game flow: each iteration shows the dungeon,
     asks the player to pick a door, and dispatches to the corresponding
@@ -641,10 +641,9 @@ def start_new_adventure(player_info_arg):
 
     while True:
         print_new_dungeon()
-        print("You enter a room, and you see a red door to your left "
-              "and blue and green doors to your right.")
-        door_picked = input("Do you pick the red door, blue door, "
-                            "or green door? > ")
+        print("You enter a room and see six doors:")
+        print("  red, blue, green, silver, teal, pink")
+        door_picked = input("Which door do you choose? > ")
 
         # We compare only the first few characters so that inputs like
         # "red door", "blue", or "green one" all work.
@@ -656,9 +655,14 @@ def start_new_adventure(player_info_arg):
             room_result = blissful_ignorance_of_illusion_room(player_info_arg)
         elif door.startswith("green"):
             room_result = green_magic_room(player_info_arg)
+        elif door.startswith("silver"):
+            room_result = silver_mirror_room(player_info_arg)
+        elif door.startswith("teal"):
+            room_result = teal_potion_room(player_info_arg)
+        elif door.startswith("pink"):
+            room_result = pink_temptation_room(player_info_arg)
         else:
-            print("Sorry, it's either 'red', 'blue', or 'green' as the "
-                  "answer. You're the weakest link, goodbye!")
+            print("Sorry, choose one of: red, blue, green, silver, teal, pink.")
             # Continue the loop so the player can try again.
             continue
 
